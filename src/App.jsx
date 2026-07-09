@@ -73,13 +73,20 @@ function App() {
     console.log("Keyword remove button clicked");
   }
 
+  function handleKeywordAddEvent() {
+    console.log("Keyword add event triggered");
+  }
+
   return (
       <Container maxWidth={"sm"}>
         <Box>
           <Stack spacing={2}>
             <TravelAreaSelect></TravelAreaSelect>
+
             <KoreanLocaleDatePicker label={"여행시작일"}></KoreanLocaleDatePicker>
+
             <KoreanLocaleDatePicker label={"여행종료일"}></KoreanLocaleDatePicker>
+
             {
               destinations.map((destination, index) => (
                   <DestinationKeywordInputCard
@@ -87,15 +94,18 @@ function App() {
                       keywords={destination.keywords}
                       onDeleteDestination={handleDestinationRemoveButtonClick}
                       onDeleteKeyword={handleKeywordRemoveButtonClick}
+                      onAddKeyword={handleKeywordAddEvent}
                   ></DestinationKeywordInputCard>
               ))
             }
+
             <Button
                 variant={"outlined"}
                 onClick={handleDestinationAddButtonClick}
             >
               여행지 추가
             </Button>
+
             <Button
                 variant={"contained"}
                 onClick={handleTravelPlanGenerateButtonClick}
