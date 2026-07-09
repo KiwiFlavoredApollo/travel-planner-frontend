@@ -6,8 +6,7 @@ export const TravelPlannerAppBar = () => {
   const navigate = useNavigate();
 
   function handleLogoutButtonClick() {
-    // TODO
-    // navigate("/login");
+    navigate("/login");
   }
 
   function handleHomeButtonClick() {
