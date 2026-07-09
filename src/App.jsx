@@ -12,6 +12,7 @@ import {
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import 'dayjs/locale/ko.js';
+import {DestinationKeywordInputCard} from "./components/DestinationKeywordInputCard.jsx";
 
 function App() {
   const [areas, setAreas] = useState([
@@ -33,6 +34,26 @@ function App() {
     }
   ]);
 
+  const [destinations, setDestinations] = useState([
+    {
+      keywords: [
+        "경복궁"
+      ]
+    },
+    {
+      keywords: [
+        "피자",
+        "경치"
+      ]
+    },
+    {
+      keywords: [
+        "커피",
+        "디저트"
+      ]
+    }
+  ]);
+
   return (
       <Container maxWidth={"sm"}>
         <Box>
@@ -50,52 +71,16 @@ function App() {
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ko"}>
               <DatePicker label={"여행시작일"}></DatePicker>
             </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ko"}>
               <DatePicker label={"여행종료일"}></DatePicker>
             </LocalizationProvider>
-            <Card
-                sx={{
-                  padding: 2
-                }}
-            >
-              <Stack spacing={2}>
-                <Typography variant={"h5"}>여행지</Typography>
-                <Box>
-                  <Chip label={"경복궁"} onDelete={() => {}}></Chip>
-                </Box>
-                <TextField></TextField>
-              </Stack>
-            </Card>
-            <Card
-                sx={{
-                  padding: 2
-                }}
-            >
-              <Stack spacing={2}>
-                <Typography variant={"h5"}>여행지</Typography>
-                <Box>
-                  <Chip label={"피자"} onDelete={() => {}}></Chip>
-                  <Chip label={"경치"} onDelete={() => {}}></Chip>
-                </Box>
-                <TextField></TextField>
-              </Stack>
-            </Card>
-            <Card
-                sx={{
-                  padding: 2
-                }}
-            >
-              <Stack spacing={2}>
-                <Typography variant={"h5"}>여행지</Typography>
-                <Box>
-                  <Chip label={"커피"} onDelete={() => {}}></Chip>
-                  <Chip label={"디저트"} onDelete={() => {}}></Chip>
-                </Box>
-                <TextField></TextField>
-              </Stack>
-            </Card>
+            {
+              destinations.map((destination, index) => (
+                  <DestinationKeywordInputCard keywords={destination.keywords}></DestinationKeywordInputCard>
+              ))
+            }
             <Button variant={"outlined"}>여행지 추가</Button>
-            <Button variant={"contained"} sx={{display: "block"}}>생성</Button>
+            <Button variant={"contained"} sx={{display: "block"}}>여행 계획 생성</Button>
           </Stack>
         </Box>
       </Container>
