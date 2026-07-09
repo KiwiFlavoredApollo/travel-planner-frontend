@@ -1,13 +1,13 @@
 import {useState} from 'react'
 import {
   Box,
-  Button,
+  Button, Card, Chip,
   Container,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Stack
+  Stack, TextField, Typography
 } from "@mui/material";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -53,7 +53,49 @@ function App() {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker label={"여행종료일"}></DatePicker>
             </LocalizationProvider>
-            <Button variant={"contained"} sx={{display: "block"}}>다음</Button>
+            <Card
+                sx={{
+                  padding: 2
+                }}
+            >
+              <Stack spacing={2}>
+                <Typography variant={"h5"}>여행지</Typography>
+                <Box>
+                  <Chip label={"경복궁"} onDelete={() => {}}></Chip>
+                </Box>
+                <TextField></TextField>
+              </Stack>
+            </Card>
+            <Card
+                sx={{
+                  padding: 2
+                }}
+            >
+              <Stack spacing={2}>
+                <Typography variant={"h5"}>여행지</Typography>
+                <Box>
+                  <Chip label={"피자"} onDelete={() => {}}></Chip>
+                  <Chip label={"경치"} onDelete={() => {}}></Chip>
+                </Box>
+                <TextField></TextField>
+              </Stack>
+            </Card>
+            <Card
+                sx={{
+                  padding: 2
+                }}
+            >
+              <Stack spacing={2}>
+                <Typography variant={"h5"}>여행지</Typography>
+                <Box>
+                  <Chip label={"커피"} onDelete={() => {}}></Chip>
+                  <Chip label={"디저트"} onDelete={() => {}}></Chip>
+                </Box>
+                <TextField></TextField>
+              </Stack>
+            </Card>
+            <Button variant={"outlined"}>여행지 추가</Button>
+            <Button variant={"contained"} sx={{display: "block"}}>생성</Button>
           </Stack>
         </Box>
       </Container>
