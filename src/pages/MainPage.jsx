@@ -1,11 +1,12 @@
 import {useState} from 'react'
 import {Box, Button, Container, Stack,} from "@mui/material";
-import {DestinationCard} from "./components/DestinationCard.jsx";
-import {KoreanDatePicker} from "./components/KoreanDatePicker.jsx";
-import {TravelAreaSelect} from "./components/TravelAreaSelect.jsx";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ko.js"
+import {DestinationCard} from "../components/DestinationCard.jsx";
+import {KoreanDatePicker} from "../components/KoreanDatePicker.jsx";
+import {TravelAreaSelect} from "../components/TravelAreaSelect.jsx";
+import {Link} from "react-router-dom";
 
 const API_URL = "http://localhost:8080";
 
