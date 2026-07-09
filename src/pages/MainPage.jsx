@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Box, Button, Container, Stack,} from "@mui/material";
+import {AppBar, Box, Button, Container, Stack, Toolbar, Typography,} from "@mui/material";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ko.js"
@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {KoreanDatePicker} from "../components/KoreanDatePicker.jsx";
 import {TravelAreaSelect} from "../components/TravelAreaSelect.jsx";
 import {DestinationCard} from "../components/DestinationCard.jsx";
+import {TravelPlannerAppBar} from "../components/TravelPlannerAppBar.jsx";
 
 const API_URL = "http://localhost:8080";
 
@@ -73,7 +74,8 @@ export const MainPage = () => {
   return (
       <Container maxWidth={"sm"}>
         <Box>
-          <Stack spacing={2}>
+          <TravelPlannerAppBar></TravelPlannerAppBar>
+          <Stack spacing={2} sx={{ marginY: 2 }}>
             <TravelAreaSelect area={area} onChange={(newArea) => setArea(newArea)}></TravelAreaSelect>
 
             <KoreanDatePicker label={"여행시작일"} onChange={(newDate) => setStartDate(newDate)}></KoreanDatePicker>

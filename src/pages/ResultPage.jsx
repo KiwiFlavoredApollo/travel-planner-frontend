@@ -3,6 +3,7 @@ import {
   Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem,
   TimelineOppositeContent, TimelineSeparator
 } from "@mui/lab";
+import {TravelPlannerAppBar} from "../components/TravelPlannerAppBar.jsx";
 
 export const ResultPage = () => {
   const destinations = [
@@ -41,6 +42,7 @@ export const ResultPage = () => {
   return (
       <Container maxWidth="sm">
         <Box>
+          <TravelPlannerAppBar></TravelPlannerAppBar>
           <Timeline
               position="right"
               sx={{
