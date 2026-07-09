@@ -39,7 +39,7 @@ export const DestinationCard = ({ keywords, onDelete, onRemoveKeyword, onAddKeyw
         ></CardHeader>
         <CardContent>
           <Stack spacing={2}>
-            <Box>
+            <Stack direction="row" spacing={1} sx={{ overflowX: "auto" }}>
               {
                 keywords.map((keyword, keywordIndex) => (
                     <Chip
@@ -49,7 +49,7 @@ export const DestinationCard = ({ keywords, onDelete, onRemoveKeyword, onAddKeyw
                     ></Chip>
                 ))
               }
-            </Box>
+            </Stack>
             <TextField
                 label={"키워드"}
                 value={text}

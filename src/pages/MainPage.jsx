@@ -3,10 +3,11 @@ import {Box, Button, Container, Stack,} from "@mui/material";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ko.js"
-import {DestinationCard} from "../components/DestinationCard.jsx";
+import {useNavigate} from "react-router-dom";
 import {KoreanDatePicker} from "../components/KoreanDatePicker.jsx";
 import {TravelAreaSelect} from "../components/TravelAreaSelect.jsx";
-import {Link} from "react-router-dom";
+import {DestinationCard} from "../components/DestinationCard.jsx";
+import {TravelPlannerAppBar} from "../components/TravelPlannerAppBar.jsx";
 
 const API_URL = "http://localhost:8080";
 
@@ -16,7 +17,12 @@ export const MainPage = () => {
   const [endDate, setEndDate] = useState(() => dayjs().locale("ko"));
   const [destinations, setDestinations] = useState([]);
 
+  const navigate = useNavigate();
+
   async function handleTravelPlanGenerateButtonClick() {
+    // TODO
+    navigate("/result");
+
     await axios.create()
         .post(
             API_URL,
@@ -66,22 +72,10 @@ export const MainPage = () => {
   }
 
   return (
-      <Container maxWidth={"sm"}>
+      <Container maxWidth="sm" sx={{ paddingX: 0 }}>
         <Box>
-          <Stack spacing={2}>
-            <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="center"
-            >
-              <Button component={Link} to="/login">
-                로그인
-              </Button>
-
-              <Button component={Link} to="/signup">
-                회원가입
-              </Button>
-            </Stack>
+          <TravelPlannerAppBar></TravelPlannerAppBar>
+          <Stack spacing={2} sx={{ marginY: 2 }}>
             <TravelAreaSelect area={area} onChange={(newArea) => setArea(newArea)}></TravelAreaSelect>
 
             <KoreanDatePicker label={"여행시작일"} onChange={(newDate) => setStartDate(newDate)}></KoreanDatePicker>

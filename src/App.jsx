@@ -1,13 +1,15 @@
-import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {MainPage} from "./pages/MainPage.jsx";
+import {ResultPage} from "./pages/ResultPage.jsx";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import {MainPage} from "./pages/MainPage.jsx";
 
 function App() {
   return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage/>}/>
+          <Route path="/result" element={<ResultPage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<Signup/>}/>
         </Routes>
@@ -15,4 +17,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
