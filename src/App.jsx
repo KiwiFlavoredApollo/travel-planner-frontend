@@ -1,18 +1,16 @@
 import {useState} from 'react'
 import {
   Box,
-  Button, Card, Chip,
+  Button,
   Container,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Stack, TextField, Typography
+  Stack,
 } from "@mui/material";
-import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import 'dayjs/locale/ko.js';
 import {DestinationKeywordInputCard} from "./components/DestinationKeywordInputCard.jsx";
+import {KoreanLocaleDatePicker} from "./components/KoreanLocaleDatePicker.jsx";
 
 function App() {
   const [areas, setAreas] = useState([
@@ -33,7 +31,6 @@ function App() {
       value: "gangwon"
     }
   ]);
-
   const [destinations, setDestinations] = useState([
     {
       keywords: [
@@ -68,12 +65,8 @@ function App() {
                 }
               </Select>
             </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ko"}>
-              <DatePicker label={"여행시작일"}></DatePicker>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ko"}>
-              <DatePicker label={"여행종료일"}></DatePicker>
-            </LocalizationProvider>
+            <KoreanLocaleDatePicker label={"여행시작일"}></KoreanLocaleDatePicker>
+            <KoreanLocaleDatePicker label={"여행종료일"}></KoreanLocaleDatePicker>
             {
               destinations.map((destination, index) => (
                   <DestinationKeywordInputCard keywords={destination.keywords}></DestinationKeywordInputCard>
