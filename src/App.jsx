@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import 'dayjs/locale/ko.js';
 
 function App() {
   const [areas, setAreas] = useState([
@@ -46,7 +47,7 @@ function App() {
                 }
               </Select>
             </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ko"}>
               <DatePicker label={"여행시작일"}></DatePicker>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
