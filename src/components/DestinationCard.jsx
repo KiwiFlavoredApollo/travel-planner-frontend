@@ -2,7 +2,7 @@ import {Box, Card, CardContent, CardHeader, Chip, IconButton, Stack, TextField, 
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useState} from "react";
 
-export const DestinationKeywordInputCard = ({keywords, onDeleteDestination, onDeleteKeyword, onAddKeyword}) => {
+export const DestinationCard = ({keywords, onDelete, onRemoveKeyword, onAddKeyword}) => {
   const [text, setText] = useState('');
 
   function handleEnterKeyDownEvent(event) {
@@ -19,10 +19,6 @@ export const DestinationKeywordInputCard = ({keywords, onDeleteDestination, onDe
     setText("");
   }
 
-  function handleKeyDownEvent(event) {
-    handleEnterKeyDownEvent(event);
-  }
-
   function handleTextFieldChange(event) {
     event.preventDefault();
 
@@ -35,7 +31,7 @@ export const DestinationKeywordInputCard = ({keywords, onDeleteDestination, onDe
             title={"여행지"}
             action={
               <IconButton
-                  onClick={onDeleteDestination}
+                  onClick={() => onDelete()}
               >
                 <DeleteIcon/>
               </IconButton>
@@ -45,12 +41,21 @@ export const DestinationKeywordInputCard = ({keywords, onDeleteDestination, onDe
           <Stack spacing={2}>
             <Box>
               {
-                keywords.map((keyword, index) => (
-                    <Chip label={keyword} key={index} onDelete={() => onDeleteKeyword(index)}></Chip>
+                keywords.map((keyword, keywordIndex) => (
+                    <Chip
+                        label={keyword}
+                        key={keywordIndex}
+                        onDelete={() => onRemoveKeyword(keywordIndex)}
+                    ></Chip>
                 ))
               }
             </Box>
-            <TextField label={"키워드"} value={text} onChange={handleTextFieldChange} onKeyDown={handleKeyDownEvent}></TextField>
+            <TextField
+                label={"키워드"}
+                value={text}
+                onChange={handleTextFieldChange}
+                onKeyDown={handleEnterKeyDownEvent}
+            ></TextField>
           </Stack>
         </CardContent>
       </Card>

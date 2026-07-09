@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {Box, Button, Container, Stack,} from "@mui/material";
-import {DestinationKeywordInputCard} from "./components/DestinationKeywordInputCard.jsx";
-import {KoreanLocaleDatePicker} from "./components/KoreanLocaleDatePicker.jsx";
+import {DestinationCard} from "./components/DestinationCard.jsx";
+import {KoreanDatePicker} from "./components/KoreanDatePicker.jsx";
 import {TravelAreaSelect} from "./components/TravelAreaSelect.jsx";
 import axios from "axios";
 
@@ -65,16 +65,17 @@ function App() {
     setDestinations(() => [...destinations, empty]);
   }
 
-  function handleDestinationRemoveButtonClick(destinationIndex) {
-    setDestinations(() => destinations.toSpliced(destinationIndex, 1));
+  function removeDestination(destinationIndex) {
+    destinations.splice(destinationIndex, 1);
+    setDestinations(() => [...destinations]);
   }
 
-  function handleKeywordRemoveButtonClick(destinationIndex, keywordIndex) {
+  function removeKeyword(destinationIndex, keywordIndex) {
     destinations[destinationIndex].keywords.splice(keywordIndex, 1);
     setDestinations(() => [...destinations]);
   }
 
-  function handleKeywordAddEvent(destinationIndex, keyword) {
+  function addKeyword(destinationIndex, keyword) {
     destinations[destinationIndex].keywords.push(keyword);
     setDestinations(() => [...destinations]);
   }
@@ -85,19 +86,19 @@ function App() {
           <Stack spacing={2}>
             <TravelAreaSelect></TravelAreaSelect>
 
-            <KoreanLocaleDatePicker label={"여행시작일"}></KoreanLocaleDatePicker>
+            <KoreanDatePicker label={"여행시작일"}></KoreanDatePicker>
 
-            <KoreanLocaleDatePicker label={"여행종료일"}></KoreanLocaleDatePicker>
+            <KoreanDatePicker label={"여행종료일"}></KoreanDatePicker>
 
             {
               destinations.map((destination, destinationIndex) => (
-                  <DestinationKeywordInputCard
+                  <DestinationCard
                       key={destinationIndex}
                       keywords={destination.keywords}
-                      onDeleteDestination={() => handleDestinationRemoveButtonClick(destinationIndex)}
-                      onDeleteKeyword={(keywordIndex) => handleKeywordRemoveButtonClick(destinationIndex, keywordIndex)}
-                      onAddKeyword={(keyword) => handleKeywordAddEvent(destinationIndex, keyword)}
-                  ></DestinationKeywordInputCard>
+                      onDelete={() => removeDestination(destinationIndex)}
+                      onRemoveKeyword={(keywordIndex) => removeKeyword(destinationIndex, keywordIndex)}
+                      onAddKeyword={(keyword) => addKeyword(destinationIndex, keyword)}
+                  ></DestinationCard>
               ))
             }
 
