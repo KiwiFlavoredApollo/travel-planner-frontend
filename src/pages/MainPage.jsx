@@ -72,46 +72,44 @@ export const MainPage = () => {
   }
 
   return (
-      <Container maxWidth="sm" sx={{ paddingX: 0 }}>
-        <Box>
-          <TravelPlannerAppBar></TravelPlannerAppBar>
-          <Stack spacing={2} sx={{ marginY: 2 }}>
-            <TravelAreaSelect area={area} onChange={(newArea) => setArea(newArea)}></TravelAreaSelect>
+      <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
+        <TravelPlannerAppBar></TravelPlannerAppBar>
+        <Stack spacing={2} sx={{ marginY: 2 }}>
+          <TravelAreaSelect area={area} onChange={(newArea) => setArea(newArea)}></TravelAreaSelect>
 
-            <KoreanDatePicker label={"여행시작일"} onChange={(newDate) => setStartDate(newDate)}></KoreanDatePicker>
+          <KoreanDatePicker label={"여행시작일"} onChange={(newDate) => setStartDate(newDate)}></KoreanDatePicker>
 
-            <KoreanDatePicker label={"여행종료일"} onChange={(newDate) => setEndDate(newDate)}></KoreanDatePicker>
+          <KoreanDatePicker label={"여행종료일"} onChange={(newDate) => setEndDate(newDate)}></KoreanDatePicker>
 
-            {
-              destinations.map((destination, destinationIndex) => (
-                  <DestinationCard
-                      key={destinationIndex}
-                      keywords={destination.keywords}
-                      onDelete={() => removeDestination(destinationIndex)}
-                      onRemoveKeyword={(keywordIndex) => removeKeyword(destinationIndex, keywordIndex)}
-                      onAddKeyword={(keyword) => addKeyword(destinationIndex, keyword)}
-                  ></DestinationCard>
-              ))
-            }
+          {
+            destinations.map((destination, destinationIndex) => (
+                <DestinationCard
+                    key={destinationIndex}
+                    keywords={destination.keywords}
+                    onDelete={() => removeDestination(destinationIndex)}
+                    onRemoveKeyword={(keywordIndex) => removeKeyword(destinationIndex, keywordIndex)}
+                    onAddKeyword={(keyword) => addKeyword(destinationIndex, keyword)}
+                ></DestinationCard>
+            ))
+          }
 
-            <Button
-                variant={"outlined"}
-                size={"large"}
-                onClick={handleDestinationAddButtonClick}
-            >
-              여행지 추가
-            </Button>
+          <Button
+              variant={"outlined"}
+              size={"large"}
+              onClick={handleDestinationAddButtonClick}
+          >
+            여행지 추가
+          </Button>
 
-            <Button
-                variant={"contained"}
-                size={"large"}
-                onClick={handleTravelPlanGenerateButtonClick}
-                sx={{ display: "block" }}
-            >
-              여행 계획 생성
-            </Button>
-          </Stack>
-        </Box>
+          <Button
+              variant={"contained"}
+              size={"large"}
+              onClick={handleTravelPlanGenerateButtonClick}
+              sx={{ display: "block" }}
+          >
+            여행 계획 생성
+          </Button>
+        </Stack>
       </Container>
   )
 }

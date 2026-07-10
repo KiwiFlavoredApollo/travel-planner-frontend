@@ -36,47 +36,45 @@ export const ResultPage = () => {
 
     { place: "서울숲", date: "2026-10-06", time: "10:00:00" },
     { place: "성수동 카페거리", date: "2026-10-06", time: "13:00:00" },
-    { place: "뚝섬한강공원", date: "2026-10-06", time: "17:30:00" }
+    { place: "뚝섬한강공원", date: "2026-10-06", time: "17:30:00" },
   ];
 
   return (
-      <Container maxWidth="sm" sx={{ paddingX: 0 }}>
-        <Box>
-          <TravelPlannerAppBar></TravelPlannerAppBar>
-          <Timeline
-              position="right"
-              sx={{
-                "& .MuiTimelineItem-root:before": {
-                  flex: 0,
-                  padding: 0,
-                },
-              }}
-          >
-            {
-              destinations.map((destination, index) => {
-                const isLastElement = index === destinations.length - 1;
+      <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
+        <TravelPlannerAppBar></TravelPlannerAppBar>
+        <Timeline
+            position="right"
+            sx={{
+              "& .MuiTimelineItem-root:before": {
+                flex: 0,
+                padding: 0,
+              },
+            }}
+        >
+          {
+            destinations.map((destination, index) => {
+              const isLastElement = index === destinations.length - 1;
 
-                return (
-                    <TimelineItem key={index}>
-                      <TimelineOppositeContent>
-                        <Stack>
-                          <Typography variant="body2">{destination.date}</Typography>
-                          <Typography variant="body2">{destination.time}</Typography>
-                        </Stack>
-                      </TimelineOppositeContent>
-                      <TimelineSeparator>
-                        <TimelineDot/>
-                        {!isLastElement && <TimelineConnector/>}
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Typography variant="h6">{destination.place}</Typography>
-                      </TimelineContent>
-                    </TimelineItem>
-                );
-              })
-            }
-          </Timeline>
-        </Box>
+              return (
+                  <TimelineItem key={index}>
+                    <TimelineOppositeContent>
+                      <Stack>
+                        <Typography variant="body2">{destination.date}</Typography>
+                        <Typography variant="body2">{destination.time}</Typography>
+                      </Stack>
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot/>
+                      {!isLastElement && <TimelineConnector/>}
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Typography variant="h6">{destination.place}</Typography>
+                    </TimelineContent>
+                  </TimelineItem>
+              );
+            })
+          }
+        </Timeline>
       </Container>
   );
 }
