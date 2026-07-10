@@ -42,15 +42,7 @@ export const ResultPage = () => {
   return (
       <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
         <TopAppBar></TopAppBar>
-        <Timeline
-            position="right"
-            sx={{
-              "& .MuiTimelineItem-root:before": {
-                flex: 0,
-                padding: 0,
-              },
-            }}
-        >
+        <Timeline>
           {
             destinations.map((destination, index) => {
               const isLastElement = index === destinations.length - 1;
