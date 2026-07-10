@@ -20,27 +20,30 @@ export const MainPage = () => {
   const navigate = useNavigate();
 
   async function handleTravelPlanGenerateButtonClick() {
-    // TODO
-    navigate("/result");
 
     await axios.create()
-        .post(
-            API_URL,
-            {
-              area: area,
-              startDate: startDate,
-              endDate: endDate,
-              destinations: destinations
-            },
-            {}
-        )
+      .post(
+          "http://localhost:8080/api/v1/travel-planner",
+          {
+            area: area,
+            startDate: startDate.format("YYYY-MM-DD"),
+            endDate: endDate.format("YYYY-MM-DD"),
+            destinations: destinations
+          }
+      )
         .then(response => {
+
           if (response.status !== 200) {
             return;
           }
-
-          console.log("결과페이지로 이동");
+          
           console.log(response.data);
+          
+          navigate("/result", {
+            state: { 
+              destinations: response.data.destinations
+            }
+          });
 
         })
         .catch(error => {
