@@ -14,7 +14,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   function handleSignupButtonClick() {
-    navigate("/signup");
+    navigate("/register");
   }
 
   return (
