@@ -1,6 +1,5 @@
 import {
   Container,
-  Box,
   Card,
   CardContent,
   Stack,
@@ -20,6 +19,11 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   async function handleRegisterButtonClick() {
+    if (!name || !userId || !password) {
+      alert("모든 빈칸을 채워주세요.");
+      return;
+    }
+
     await api.post("/auth/register", {
       name: name,
       userId: userId,
@@ -27,14 +31,15 @@ export default function RegisterPage() {
     }, {})
         .then((response) => {
           if (response.status !== 201) {
+            alert("회원가입에 실패했습니다.");
             return;
           }
-
+          alert("회원가입이 완료되었습니다!");
           navigate("/login");
-
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+          alert("회원가입 중 오류가 발생했습니다. 아이디 중복 여부를 확인해 주세요.");
         })
   }
 
@@ -62,7 +67,7 @@ export default function RegisterPage() {
         <Card sx={{ width: "100%" }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h5">
+              <Typography variant="h5" align="center">
                 회원가입
               </Typography>
 

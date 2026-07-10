@@ -1,14 +1,24 @@
-import {useLocation} from "react-router-dom";
-import {Box, Container, Stack, Typography} from "@mui/material";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {Container, Stack, Typography} from "@mui/material";
 import {
   Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem,
   TimelineOppositeContent, TimelineSeparator
 } from "@mui/lab";
 import {TopAppBar} from "../components/TopAppBar.jsx";
+import {useAccessToken} from "../context/AccessTokenContext.jsx";
 
 export const ResultPage = () => {
-  
   const location = useLocation();
+  const navigate = useNavigate();
+  const { accessToken } = useAccessToken();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/login");
+    }
+  }, [accessToken, navigate]);
 
   const destinations = location.state?.destinations || [];
 

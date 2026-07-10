@@ -32,7 +32,7 @@ export const TravelAreaSelect = ({ area, onChange }) => {
         <Select variant={"outlined"} value={area} onChange={handleSelectChange}>
           {
             areas.map((area, index) => (
-                <MenuItem value={area.value}>{area.name}</MenuItem>
+                <MenuItem value={area.value} key={index}>{area.name}</MenuItem>
             ))
           }
         </Select>

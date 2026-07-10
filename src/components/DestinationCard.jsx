@@ -1,38 +1,33 @@
-import {Box, Card, CardContent, CardHeader, Chip, IconButton, Stack, TextField, Typography} from "@mui/material";
+import {Card, CardContent, CardHeader, Chip, IconButton, Stack, TextField} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useState} from "react";
 
-export const DestinationCard = ({ keywords, onDelete, onRemoveKeyword, onAddKeyword }) => {
+export const DestinationCard = ({
+  keywords,
+  onDelete,
+  onRemoveKeyword,
+  onAddKeyword
+}) => {
   const [text, setText] = useState('');
 
   function handleEnterKeyDownEvent(event) {
-    if (event.key !== 'Enter') {
-      return;
-    }
-
-    if (text === "") {
-      return;
-    }
-
+    if (event.key !== 'Enter') return;
+    if (text === '') return;
     onAddKeyword(text);
-
-    setText("");
+    setText('');
   }
 
   function handleTextFieldChange(event) {
     event.preventDefault();
-
-    setText(() => event.target.value);
+    setText(event.target.value);
   }
 
   return (
       <Card>
         <CardHeader
-            title={"여행지"}
+            title="여행지"
             action={
-              <IconButton
-                  onClick={() => onDelete()}
-              >
+              <IconButton onClick={() => onDelete()}>
                 <DeleteIcon/>
               </IconButton>
             }
