@@ -10,11 +10,13 @@ export const DestinationCard = ({ keywords, onDelete, onRemoveKeyword, onAddKeyw
       return;
     }
 
-    if (text === "") {
+    const trimmed = text.trim();
+
+    if (trimmed === "") {
       return;
     }
 
-    onAddKeyword(text);
+    onAddKeyword(trimmed);
 
     setText("");
   }
