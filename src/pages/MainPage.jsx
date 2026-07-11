@@ -77,14 +77,18 @@ export const MainPage = () => {
     setDestinations(() => [...destinations]);
   }
 
-  function isDestinationsEmpty() {
+  function isReadyForGeneratingTravelPlan() {
+    function isDestinationsEmpty(destinations) {
+      const nonEmpty = destinations.filter(destination => !isKeywordsEmpty(destination.keywords));
+
+      return nonEmpty.length === 0;
+    }
+
     function isKeywordsEmpty(keywords) {
       return keywords.length === 0;
     }
 
-    const nonEmpty = destinations.filter(destination => !isKeywordsEmpty(destination.keywords));
-
-    return nonEmpty.length === 0;
+    return !isDestinationsEmpty(destinations);
   }
 
   return (
@@ -131,7 +135,7 @@ export const MainPage = () => {
               variant="contained"
               size={"large"}
               onClick={handleTravelPlanGenerateButtonClick}
-              disabled={isDestinationsEmpty()}
+              disabled={!isReadyForGeneratingTravelPlan()}
               sx={{marginY: 1}}
           >
             여행계획생성
