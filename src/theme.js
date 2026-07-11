@@ -1,6 +1,10 @@
 import {createTheme} from "@mui/material";
 
 export const theme = createTheme({
+  colorSchemes: {
+    light: true,
+    dark: true,
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {

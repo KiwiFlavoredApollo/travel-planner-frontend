@@ -1,14 +1,15 @@
-import {AppBar, Button, IconButton, Switch, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, IconButton, Switch, Toolbar, Typography, useColorScheme} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import {useAccessTokenContext} from "../contexts/AccessTokenContext.jsx";
-import {useDarkModeContext} from "../contexts/DarkModeContext.jsx";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
+import {useEffect} from "react";
 
 export const TopAppBar = () => {
-  const {accessToken, setAccessToken} = useAccessTokenContext();
-  const {isDarkMode, setIsDarkMode} = useDarkModeContext();
+  const { accessToken, setAccessToken } = useAccessTokenContext();
+  const { mode, setMode } = useColorScheme();
 
   const navigate = useNavigate();
 
@@ -22,9 +23,33 @@ export const TopAppBar = () => {
     navigate("/");
   }
 
-  function handleDarkModeButtonClick() {
-    setIsDarkMode(() => !isDarkMode);
+  function handleColorSchemeModeButtonClick() {
+    if (mode === "dark") {
+      setMode("light");
+
+    } else if (mode === "light") {
+      setMode("system");
+
+    } else if (mode === "system") {
+      setMode("dark");
+    }
   }
+
+  function getColorSchemeModeIcon() {
+    if (mode === "dark") {
+      return <DarkModeIcon/>;
+
+    } else if (mode === "light") {
+      return <LightModeIcon/>;
+
+    } else if (mode === "system") {
+      return <SettingsBrightnessIcon/>;
+    }
+  }
+
+  useEffect(function setDefaultMode () {
+    setMode("dark");
+  }, [])
 
   return (
       <AppBar position="sticky">
@@ -42,9 +67,9 @@ export const TopAppBar = () => {
           <IconButton
               size="large"
               color="inherit"
-              onClick={handleDarkModeButtonClick}
+              onClick={handleColorSchemeModeButtonClick}
           >
-            {isDarkMode ? <LightModeIcon/> : <DarkModeIcon/>}
+            {getColorSchemeModeIcon()}
           </IconButton>
           <Button color="inherit" onClick={handleLogoutButtonClick}>로그아웃</Button>
         </Toolbar>
