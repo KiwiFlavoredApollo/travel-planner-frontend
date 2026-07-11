@@ -75,6 +75,7 @@ export default function LoginPage() {
               <TextField
                   label="아이디"
                   value={userId}
+                  required
                   onChange={(e) => setUserId(e.target.value)}
               />
 
@@ -82,6 +83,7 @@ export default function LoginPage() {
                   label="비밀번호"
                   type="password"
                   value={password}
+                  required
                   onChange={(e) => setPassword(e.target.value)}
               />
 
