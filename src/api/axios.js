@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE || '/api/v1',
-  timeout: 5000,
 });
 
 // Request interceptor: attach access token if present

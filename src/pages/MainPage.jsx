@@ -1,141 +1,190 @@
-import {useState, useEffect} from 'react'
-import {Box, Button, Container, Stack, Snackbar, Alert} from "@mui/material";
-import dayjs from "dayjs";
-import "dayjs/locale/ko.js"
-import {useNavigate} from "react-router-dom";
-import {KoreanDatePicker} from "../components/KoreanDatePicker.jsx";
-import {TravelAreaSelect} from "../components/TravelAreaSelect.jsx";
-import {DestinationCard} from "../components/DestinationCard.jsx";
-import {TopAppBar} from "../components/TopAppBar.jsx";
-import {api} from "../api/axios.js";
-import {MainPageBottomAppBar} from "../components/MainPageBottomAppBar.jsx";
-import {useAccessToken} from "../context/AccessTokenContext.jsx";
+import { useState, useEffect } from 'react';
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Snackbar,
+  Alert,
+  Tooltip,
+  Fab,
+  Typography,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../api/axios';
+import { useAccessToken } from '../context/AccessTokenContext.jsx';
+import { TopAppBar } from '../components/TopAppBar.jsx';
 
 export const MainPage = () => {
-  const [area, setArea] = useState("all");
-  const [startDate, setStartDate] = useState(() => dayjs().locale("ko"));
-  const [endDate, setEndDate] = useState(() => dayjs().locale("ko"));
-  const [destinations, setDestinations] = useState([]);
+  const [travelPlans, setTravelPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const { accessToken } = useAccessToken();
-
   const navigate = useNavigate();
 
-  // Redirect to login page if no access token is present
+  // Redirect to login if no access token
   useEffect(() => {
     if (!accessToken) {
-      navigate("/login");
+      navigate('/login');
     }
   }, [accessToken, navigate]);
 
-  async function handleTravelPlanGenerateButtonClick() {
-    // Validation: At least one destination keyword is required
-    const formattedDestinations = destinations
-      .map(d => ({
-        keyword: d.keywords && d.keywords.length > 0 ? d.keywords[0] : ""
-      }))
-      .filter(d => d.keyword !== "");
-
-    if (formattedDestinations.length === 0) {
-      setError("최소 하나의 여행지 키워드를 입력해주세요.");
-      return;
-    }
-
-    setError(null);
-
-    try {
-      const response = await api.post("/travel-planner", {
-        area: area,
-        startDate: startDate.format("YYYY-MM-DD"),
-        endDate: endDate.format("YYYY-MM-DD"),
-        destinations: formattedDestinations
-      });
-
-      if (response.status !== 200 && response.status !== 201) {
-        throw new Error("서버 응답 오류");
-      }
-
-      navigate("/result", {
-        state: {
-          destinations: response.data.destinations
+  // Fetch travel plans on mount
+  useEffect(() => {
+    const fetchTravelPlans = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get('/travel-planner');
+        if (response.status === 200) {
+          setTravelPlans(response.data);
+        } else {
+          throw new Error('Failed to fetch travel plans');
         }
-      });
-    } catch (err) {
-      console.error(err);
-      setError("여행 계획 생성에 실패했습니다. 다시 시도해 주세요.");
+      } catch (err) {
+        console.error(err);
+        setError('여행 계획 목록을 불러오는 데 실패했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (accessToken) {
+      fetchTravelPlans();
     }
+  }, [accessToken, navigate]);
+
+  const handleCreatePlan = () => {
+    navigate('/create');
+  };
+
+  const handlePlanClick = (plan) => {
+    navigate('/result', { state: { travelPlan: plan } });
+  };
+
+  if (loading) {
+    return (
+      <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
+        <TopAppBar />
+        <Box
+          sx={{
+            display: 'flex',
+            height: 'calc(100vh - 64px)',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box sx={{ width: 2, height: 2 }}>
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'block',
+                animation: 'rotate 2s linear infinite',
+                border: '2px solid #ccc',
+                borderTopColor: '#1976d2',
+                borderRadius: '50%',
+              }}
+            />
+          </Box>
+        </Box>
+      </Container>
+    );
   }
 
-  function handleDestinationAddButtonClick() {
-    const empty = {
-      keywords: []
-    };
-
-    setDestinations(() => [...destinations, empty]);
-  }
-
-  function removeDestination(destinationIndex) {
-    const copy = [...destinations];
-    copy.splice(destinationIndex, 1);
-    setDestinations(copy);
-  }
-
-  function removeKeyword(destinationIndex, keywordIndex) {
-    const copy = [...destinations];
-    copy[destinationIndex] = {
-      ...copy[destinationIndex],
-      keywords: [...copy[destinationIndex].keywords]
-    };
-    copy[destinationIndex].keywords.splice(keywordIndex, 1);
-    setDestinations(copy);
-  }
-
-  function addKeyword(destinationIndex, keyword) {
-    const copy = [...destinations];
-    copy[destinationIndex] = {
-      ...copy[destinationIndex],
-      keywords: [...copy[destinationIndex].keywords, keyword]
-    };
-    setDestinations(copy);
+  if (error) {
+    return (
+      <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
+        <TopAppBar />
+        <Box
+          sx={{
+            display: 'flex',
+            height: 'calc(100vh - 64px)',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      </Container>
+    );
   }
 
   return (
-      <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", paddingX: 0, height: '100vh' }}>
-        <TopAppBar></TopAppBar>
-        <Stack spacing={2} sx={{ marginY: 2, paddingX: 2 }}>
-          <TravelAreaSelect area={area} onChange={(newArea) => setArea(newArea)}></TravelAreaSelect>
-
-          <KoreanDatePicker label={"여행시작일"} onChange={(newDate) => setStartDate(newDate)}></KoreanDatePicker>
-
-          <KoreanDatePicker label={"여행종료일"} onChange={(newDate) => setEndDate(newDate)}></KoreanDatePicker>
-
-          {
-            destinations.map((destination, destinationIndex) => (
-                <DestinationCard
-                    key={destinationIndex}
-                    keywords={destination.keywords}
-                    onDelete={() => removeDestination(destinationIndex)}
-                    onRemoveKeyword={(keywordIndex) => removeKeyword(destinationIndex, keywordIndex)}
-                    onAddKeyword={(keyword) => addKeyword(destinationIndex, keyword)}
-                ></DestinationCard>
-            ))
-          }
-
-          <Button
-              variant={"outlined"}
-              size={"large"}
-              onClick={handleDestinationAddButtonClick}
+    <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <TopAppBar />
+      <Box sx={{ flexGrow: 1 }}>
+        {travelPlans.length === 0 ? (
+          <Box
+            sx={{
+              display: 'flex',
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
-            여행지 추가
-          </Button>
-        </Stack>
-        <Box sx={{ flexGrow: 1 }}></Box>
-        <MainPageBottomAppBar onClick={handleTravelPlanGenerateButtonClick}></MainPageBottomAppBar>
-
-        <Snackbar open={!!error} autoHideDuration={4000} onClose={() => setError(null)}>
-          <Alert severity="error">{error}</Alert>
-        </Snackbar>
-      </Container>
-  )
-}
+            <Typography variant="body2" align="center">
+              저장된 여행 계획이 없습니다.
+            </Typography>
+          </Box>
+        ) : (
+          <Stack spacing={2} sx={{ p: 2 }}>
+            {travelPlans.map((plan) => (
+              <Button
+                key={plan.id}
+                variant="outlined"
+                size="medium"
+                sx={{ textAlign: 'left', width: '100%' }}
+                onClick={() => handlePlanClick(plan)}
+              >
+                <Stack direction="row" spacing={2}>
+                  <Box sx={{ minWidth: 60 }}>
+                    <Box
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        bgcolor: '#1976d2',
+                        borderRadius: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {plan.id}
+                    </Box>
+                  </Box>
+                  <Stack>
+                    <Typography variant="h6" fontWeight="500">
+                      {plan.area}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {plan.startDate} ~ {plan.endDate}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </Button>
+            ))}
+          </Stack>
+        )}
+      </Box>
+      <Box sx={{ position: 'fixed', bottom: 24, right: 24 }}>
+        <Tooltip title="새 여행 계획 생성">
+          <Fab
+            color="primary"
+            aria-label="add"
+            size="large"
+            onClick={handleCreatePlan}
+          >
+            <Box sx={{ fontSize: 28, fontWeight: 'bold', lineHeight: 1 }}>
+              +
+            </Box>
+          </Fab>
+        </Tooltip>
+      </Box>
+      <Snackbar open={!!error} autoHideDuration={4000} onClose={() => setError(null)}>
+        <Alert severity="error">{error}</Alert>
+      </Snackbar>
+    </Container>
+  );
+};
