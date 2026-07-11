@@ -78,17 +78,35 @@ export const MainPage = () => {
   }
 
   function isReadyForGeneratingTravelPlan() {
-    function isDestinationsEmpty(destinations) {
-      const nonEmpty = destinations.filter(destination => !isKeywordsEmpty(destination.keywords));
+    return !isDestinationKeywordsEmpty(destinations) && isTravelDateRangeValid(startDate, endDate);
 
+    function isDestinationKeywordsEmpty(destinations) {
+      const nonEmpty = destinations.filter(destination => destination.keywords.length !== 0);
       return nonEmpty.length === 0;
     }
 
-    function isKeywordsEmpty(keywords) {
-      return keywords.length === 0;
+    function isTravelDateRangeValid(startDate, endDate) {
+      return isPresentOrFuture(startDate) && isEndDateOnOrAfterStartDate(startDate, endDate);
     }
 
-    return !isDestinationsEmpty(destinations);
+    function isPresentOrFuture(date) {
+      try {
+        const now = dayjs().locale("ko").startOf("day");
+        return date.diff(now) >= 0;
+
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function isEndDateOnOrAfterStartDate(startDate, endDate) {
+      try {
+        return endDate.diff(startDate) >= 0;
+
+      } catch (error) {
+        return false;
+      }
+    }
   }
 
   return (
