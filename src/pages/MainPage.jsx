@@ -1,14 +1,13 @@
-import {useState} from 'react'
-import {AppBar, Box, Button, Container, Stack, Toolbar,} from "@mui/material";
+import {useState, useEffect} from 'react'
+import {Box, Button, Container, Stack, Snackbar, Alert, AppBar} from "@mui/material";
 import dayjs from "dayjs";
-import "dayjs/locale/ko.js"
+import "dayjs/locale/ko.js";
 import {useNavigate} from "react-router-dom";
 import {KoreanDatePicker} from "../components/KoreanDatePicker.jsx";
 import {TravelAreaSelect} from "../components/TravelAreaSelect.jsx";
 import {DestinationCard} from "../components/DestinationCard.jsx";
 import {TopAppBar} from "../components/TopAppBar.jsx";
 import {api} from "../api/axios.js";
-import {MainPageBottomAppBar} from "../components/MainPageBottomAppBar.jsx";
 import {useAccessTokenContext} from "../contexts/AccessTokenContext.jsx";
 
 export const MainPage = () => {
@@ -17,37 +16,42 @@ export const MainPage = () => {
   const [endDate, setEndDate] = useState(() => dayjs().locale("ko"));
   const [destinations, setDestinations] = useState([]);
 
-  const {accessToken, setAccessToken} = useAccessTokenContext();
+  const {accessToken} = useAccessTokenContext();
 
   const navigate = useNavigate();
 
   async function handleTravelPlanGenerateButtonClick() {
-    await api.post("/travel-planner", {
+    const data = {
       area: area,
       startDate: startDate.format("YYYY-MM-DD"),
       endDate: endDate.format("YYYY-MM-DD"),
-      destinations: destinations
-    }, {
+      destinations: destinations,
+    }
+
+    const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
-    })
-        .then(response => {
+    }
 
-          if (response.status !== 200) {
-            return;
-          }
+    try {
+      const response = await api.post("/travel-planner", data, config);
 
-          navigate("/result", {
-            state: {
-              destinations: response.data.destinations
-            }
-          });
+      if (response.status !== 200) {
+        return;
+      }
 
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      const options = {
+        state: {
+          destinations: response.data.destinations
+        }
+      };
+
+      navigate("/result", options);
+
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function handleDestinationAddButtonClick() {
@@ -73,10 +77,21 @@ export const MainPage = () => {
     setDestinations(() => [...destinations]);
   }
 
+  function isDestinationsEmpty() {
+    function isKeywordsEmpty(keywords) {
+      return keywords.length === 0;
+    }
+
+    const nonEmpty = destinations.filter(destination => !isKeywordsEmpty(destination.keywords));
+
+    return nonEmpty.length === 0;
+  }
+
   return (
-      <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", paddingX: 0, height: '100vh' }}>
+      <Container maxWidth="sm" sx={{display: "flex", flexDirection: "column", paddingX: 0, height: '100vh'}}>
         <TopAppBar></TopAppBar>
-        <Stack spacing={2} sx={{ marginY: 2 }}>
+
+        <Stack spacing={2} sx={{marginY: 2, paddingX: 1}}>
           <TravelAreaSelect area={area} onChange={(newArea) => setArea(newArea)}></TravelAreaSelect>
 
           <KoreanDatePicker label={"여행시작일"} onChange={(newDate) => setStartDate(newDate)}></KoreanDatePicker>
@@ -103,8 +118,25 @@ export const MainPage = () => {
             여행지 추가
           </Button>
         </Stack>
-        <Box sx={{ flexGrow: 1 }}></Box>
-        <MainPageBottomAppBar onClick={handleTravelPlanGenerateButtonClick}></MainPageBottomAppBar>
+
+        <Box sx={{flexGrow: 1}}></Box>
+
+        <AppBar
+            position="sticky"
+            color="transparent"
+            elevation={0}
+            sx={{bottom: 0, paddingX: 1}}
+        >
+          <Button
+              variant="contained"
+              size={"large"}
+              onClick={handleTravelPlanGenerateButtonClick}
+              disabled={isDestinationsEmpty()}
+              sx={{marginY: 1}}
+          >
+            여행계획생성
+          </Button>
+        </AppBar>
       </Container>
   )
 }
