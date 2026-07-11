@@ -6,7 +6,7 @@ export const MainPageBottomAppBar = ({ onClick }) => {
           position="sticky"
           color="transparent"
           elevation={0}
-          sx={{ bottom: 0 }}
+          sx={{ bottom: 0, paddingX: 1 }}
       >
         <Button
             variant={"contained"}
