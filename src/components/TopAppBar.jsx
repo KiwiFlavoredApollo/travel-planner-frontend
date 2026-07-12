@@ -82,16 +82,21 @@ export const TopAppBar = () => {
               color="inherit"
               onClick={handleColorSchemeModeButtonClick}
           >
-            {getColorSchemeModeIcon()}
+            {
+              getColorSchemeModeIcon()
+            }
           </IconButton>
 
-          <IconButton
-              size="large"
-              color="inherit"
-              onClick={handleHistoryButtonClick}
-          >
-            <HistoryIcon/>
-          </IconButton>
+          {
+              isLoggedIn() &&
+              <IconButton
+                  size="large"
+                  color="inherit"
+                  onClick={handleHistoryButtonClick}
+              >
+                <HistoryIcon/>
+              </IconButton>
+          }
 
           <Button
               color="inherit"
