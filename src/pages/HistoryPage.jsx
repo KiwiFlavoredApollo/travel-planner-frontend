@@ -5,7 +5,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { api } from '../api/axios';
 import { TopAppBar } from '../components/TopAppBar.jsx';
 import { useAccessTokenContext } from "../contexts/AccessTokenContext.jsx";
@@ -145,13 +145,11 @@ export const HistoryPage = () => {
     return accessToken !== null;
   }
 
-  useEffect(function navigateToLoginPage() {
-    if (isLoggedIn()) {
-      return;
-    }
-
-    navigate('/login');
-  }, [])
+  if (!isLoggedIn()) {
+    return (
+        <Navigate to="/login"></Navigate>
+    );
+  }
 
   const navigateToTimelinePage = (travelPlan) => {
     const options = {
