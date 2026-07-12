@@ -141,6 +141,18 @@ export const HistoryPage = () => {
     }
   }, [ accessToken, navigate ]);
 
+  function isLoggedIn() {
+    return accessToken !== null;
+  }
+
+  useEffect(function navigateToLoginPage() {
+    if (isLoggedIn()) {
+      return;
+    }
+
+    navigate('/login');
+  }, [])
+
   const navigateToTimelinePage = (travelPlan) => {
     const options = {
       state: {
