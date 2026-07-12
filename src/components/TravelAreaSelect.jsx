@@ -1,6 +1,7 @@
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 export const TravelAreaSelect = ({ area, onChange }) => {
+  const label = "지역";
   const areas = [
     { name: "전국", value: "all" },
     { name: "서울", value: "seoul" },
@@ -28,8 +29,8 @@ export const TravelAreaSelect = ({ area, onChange }) => {
 
   return (
       <FormControl>
-        <InputLabel>지역</InputLabel>
-        <Select variant={"outlined"} value={area} onChange={handleSelectChange}>
+        <InputLabel>{label}</InputLabel>
+        <Select variant={"outlined"} label={label} value={area} onChange={handleSelectChange}>
           {
             areas.map((area, index) => (
                 <MenuItem value={area.value} key={index}>{area.name}</MenuItem>
