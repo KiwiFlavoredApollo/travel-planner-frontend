@@ -1,6 +1,5 @@
 import {
   Container,
-  Box,
   Card,
   CardContent,
   Stack,
@@ -19,12 +18,24 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
 
+  function isRequiredTextFieldEmpty() {
+    return !name || !userId || !password;
+  }
+
   async function handleRegisterButtonClick() {
-    await api.post("/auth/register", {
+    if (isRequiredTextFieldEmpty()) {
+      return;
+    }
+
+    const data = {
       name: name,
       userId: userId,
       password: password,
-    }, {})
+    };
+
+    const config = {};
+
+    await api.post("/auth/register", data, config)
         .then((response) => {
           if (response.status !== 201) {
             return;
@@ -34,7 +45,7 @@ export default function RegisterPage() {
 
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         })
   }
 
@@ -70,6 +81,7 @@ export default function RegisterPage() {
                   label="이름"
                   variant="outlined"
                   value={name}
+                  required
                   onChange={handleNameChange}
               />
 
@@ -77,6 +89,7 @@ export default function RegisterPage() {
                   label="아이디"
                   variant="outlined"
                   value={userId}
+                  required
                   onChange={handleUserIdChange}
               />
 
@@ -85,6 +98,7 @@ export default function RegisterPage() {
                   type="password"
                   variant="outlined"
                   value={password}
+                  required
                   onChange={handlePasswordChange}
               />
 

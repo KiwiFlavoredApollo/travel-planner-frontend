@@ -5,7 +5,8 @@ import {
   Typography,
   Container,
   Card,
-  CardContent, Divider,
+  CardContent,
+  Divider,
 } from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
@@ -16,7 +17,7 @@ export default function LoginPage() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
-  const {accessToken, setAccessToken} = useAccessTokenContext();
+  const { setAccessToken } = useAccessTokenContext();
 
   const navigate = useNavigate();
 
@@ -74,22 +75,24 @@ export default function LoginPage() {
               <TextField
                   label="아이디"
                   value={userId}
+                  required
                   onChange={(e) => setUserId(e.target.value)}
-                />
+              />
 
               <TextField
                   label="비밀번호"
                   type="password"
                   value={password}
+                  required
                   onChange={(e) => setPassword(e.target.value)}
-                />
+              />
 
               <Button
                   variant="contained"
                   onClick={handleLoginButtonClick}
-                >
-                  로그인 하기
-                </Button>
+              >
+                로그인
+              </Button>
 
               <Divider variant="inset"></Divider>
 
@@ -97,7 +100,7 @@ export default function LoginPage() {
                   variant="contained"
                   onClick={handleSignupButtonClick}
               >
-                회원가입 하기
+                회원가입
               </Button>
             </Stack>
           </CardContent>
