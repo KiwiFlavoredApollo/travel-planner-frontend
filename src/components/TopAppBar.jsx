@@ -1,21 +1,22 @@
-import {AppBar, Button, IconButton, Switch, Toolbar, Typography, useColorScheme} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import { AppBar, Button, IconButton, Switch, Toolbar, Tooltip, Typography, useColorScheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
-import {useAccessTokenContext} from "../contexts/AccessTokenContext.jsx";
+import { useAccessTokenContext } from "../contexts/AccessTokenContext.jsx";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 import HistoryIcon from '@mui/icons-material/History';
 
 export const TopAppBar = () => {
-  const { setAccessToken } = useAccessTokenContext();
+  const { accessToken, setAccessToken } = useAccessTokenContext();
 
   const { mode, setMode } = useColorScheme();
 
   const navigate = useNavigate();
 
-  function handleLogoutButtonClick() {
+  function handleLoginLogoutButtonClick() {
     setAccessToken(null);
 
     navigate("/login");
@@ -53,6 +54,10 @@ export const TopAppBar = () => {
     }
   }
 
+  function isLoggedIn() {
+    return accessToken !== null;
+  }
+
   return (
       <AppBar position="sticky">
         <Toolbar>
@@ -88,14 +93,14 @@ export const TopAppBar = () => {
             <HistoryIcon/>
           </IconButton>
 
-          <IconButton
-              size="large"
-              edge="end"
+          <Button
               color="inherit"
-              onClick={handleLogoutButtonClick}
+              onClick={handleLoginLogoutButtonClick}
           >
-            <LogoutIcon/>
-          </IconButton>
+            {
+              isLoggedIn() ? "로그아웃" : "로그인"
+            }
+          </Button>
         </Toolbar>
       </AppBar>
   );
