@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Container, Stack, Typography, Button, Snackbar, Alert, CircularProgress, Box } from "@mui/material";
 import {
@@ -18,12 +18,22 @@ export const TimelinePage = () => {
 
   const travelPlan = location.state?.travelPlan || [];
 
+  function isLoggedIn() {
+    return accessToken !== null;
+  }
+
+  if (!isLoggedIn()) {
+    return (
+        <Navigate to="/login"></Navigate>
+    );
+  }
+
   return (
       <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
         <TopAppBar/>
         <Timeline>
           {
-            travelPlan.destinations.map((destination, index) => {
+            travelPlan.destinations?.map((destination, index) => {
               const isLastElement = index === travelPlan.destinations.length - 1;
 
               return (
