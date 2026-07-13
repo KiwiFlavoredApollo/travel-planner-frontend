@@ -55,6 +55,13 @@ export const TimelinePage = () => {
               fullWidth
               sx={{ mt: 1 }}
             />
+
+            <Button
+              sx={{ mt: 1 }}
+              onClick={() => setEditingIndex(null)}
+            >
+              저장
+            </Button>
           </>
         ) : (
           <>
