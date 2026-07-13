@@ -42,7 +42,7 @@ export const TimelinePage = () => {
     );
   }
 
-  function getReadModeCard(destination, index) {
+  function getViewModeCard(destination, index) {
     return (
         <Card key={index}>
           <CardHeader
@@ -129,7 +129,7 @@ export const TimelinePage = () => {
             travelPlan.destinations?.map((destination, index) => (
                 index === editingIndex ?
                     getEditModeCard(destination, index) :
-                    getReadModeCard(destination, index)
+                    getViewModeCard(destination, index)
             ))
           }
         </Stack>
