@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, Button, Container, Stack, Alert, AppBar } from "@mui/material";
+import { Box, Button, Container, Stack, Alert, AppBar, Backdrop, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/ko.js";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +15,15 @@ export const MainPage = () => {
   const [ startDate, setStartDate ] = useState(() => dayjs().locale("ko"));
   const [ endDate, setEndDate ] = useState(() => dayjs().locale("ko"));
   const [ destinations, setDestinations ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const { accessToken } = useAccessTokenContext();
 
   const navigate = useNavigate();
 
   async function handleTravelPlanGenerateButtonClick() {
+    setIsLoading(true);
+
     const data = {
       area: area,
       startDate: startDate.format("YYYY-MM-DD"),
@@ -46,6 +49,8 @@ export const MainPage = () => {
           travelPlan: response.data
         }
       };
+
+      setIsLoading(false);
 
       navigate("/timeline", options);
 
@@ -103,6 +108,13 @@ export const MainPage = () => {
       <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", paddingX: 0, height: '100vh' }}>
         <TopAppBar></TopAppBar>
 
+        <Backdrop
+            sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+            open={isLoading}
+        >
+          <CircularProgress color="inherit"/>
+        </Backdrop>
+
         <Stack spacing={2} sx={{ marginY: 2, paddingX: 1 }}>
           <TravelAreaSelect
               area={area}
@@ -136,7 +148,7 @@ export const MainPage = () => {
           }
 
           {
-            !isLoggedIn() && <Alert severity="error">로그인이 필요합니다.</Alert>
+              !isLoggedIn() && <Alert severity="error">로그인이 필요합니다.</Alert>
           }
 
           <Button
