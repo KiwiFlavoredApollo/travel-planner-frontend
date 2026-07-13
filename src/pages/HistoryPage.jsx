@@ -10,6 +10,8 @@ import { api } from '../api/axios';
 import { TopAppBar } from '../components/TopAppBar.jsx';
 import { useAccessTokenContext } from "../contexts/AccessTokenContext.jsx";
 import { TravelPlanCard } from "../components/TravelPlanCard.jsx";
+import { Http } from "@mui/icons-material";
+import { HttpStatusCode } from "axios";
 
 export const HistoryPage = () => {
   const { accessToken } = useAccessTokenContext();
@@ -163,23 +165,8 @@ export const HistoryPage = () => {
   };
 
   async function removeTravelPlan(index) {
-    // TODO
-    const toBeDeleted = travelPlans.splice(index, 1);
-
-    if (toBeDeleted.length !== 1) {
-      return;
-    }
-
-    setTravelPlans([ ...travelPlans ]);
-
-    return;
-
     try {
-      const toBeDeleted = travelPlans.splice(index, 1);
-
-      if (toBeDeleted.length !== 1) {
-        return;
-      }
+      const toBeDeleted = travelPlans.splice(index, 1)[0];
 
       const config = {
         headers: {
@@ -187,9 +174,9 @@ export const HistoryPage = () => {
         }
       }
 
-      const response = api.delete(`/travel-plan/${toBeDeleted.id}`, config);
+      const response = await api.delete(`/travel-plan/${toBeDeleted.id}`, config);
 
-      if (response !== 204) {
+      if (response.status !== 204) {
         return;
       }
 
@@ -199,17 +186,6 @@ export const HistoryPage = () => {
       console.error(error);
     }
   }
-
-  // TODO
-  useEffect(function setIsLoadingFalseAfterOneSecond() {
-    async function setIsLoadingAfterTimeout(timeout) {
-      await new Promise(resolve => setTimeout(resolve, timeout));
-
-      setIsLoading(false);
-    }
-
-    setIsLoadingAfterTimeout(1000)
-  }, [])
 
   function getSkeletons() {
     return [ ...Array(3) ].map((_, index) => (
