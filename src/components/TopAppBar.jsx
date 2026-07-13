@@ -5,9 +5,12 @@ import {useAccessTokenContext} from "../contexts/AccessTokenContext.jsx";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HistoryIcon from '@mui/icons-material/History';
 
 export const TopAppBar = () => {
-  const { accessToken, setAccessToken } = useAccessTokenContext();
+  const { setAccessToken } = useAccessTokenContext();
+
   const { mode, setMode } = useColorScheme();
 
   const navigate = useNavigate();
@@ -20,6 +23,10 @@ export const TopAppBar = () => {
 
   function handleHomeButtonClick() {
     navigate("/");
+  }
+
+  function handleHistoryButtonClick() {
+    navigate("/history");
   }
 
   function handleColorSchemeModeButtonClick() {
@@ -58,7 +65,13 @@ export const TopAppBar = () => {
           >
             <HomeIcon/>
           </IconButton>
-          <Typography sx={{ flexGrow: 1 }}>여행계획도우미</Typography>
+
+          <Typography
+              sx={{ flexGrow: 1 }}
+          >
+            여행계획도우미
+          </Typography>
+
           <IconButton
               size="large"
               color="inherit"
@@ -66,7 +79,23 @@ export const TopAppBar = () => {
           >
             {getColorSchemeModeIcon()}
           </IconButton>
-          <Button color="inherit" onClick={handleLogoutButtonClick}>로그아웃</Button>
+
+          <IconButton
+              size="large"
+              color="inherit"
+              onClick={handleHistoryButtonClick}
+          >
+            <HistoryIcon/>
+          </IconButton>
+
+          <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              onClick={handleLogoutButtonClick}
+          >
+            <LogoutIcon/>
+          </IconButton>
         </Toolbar>
       </AppBar>
   );
