@@ -35,7 +35,7 @@ export const MainPage = () => {
     }
 
     try {
-      const response = await api.post("/travel-planner", data, config);
+      const response = await api.post("/travel-plan", data, config);
 
       if (response.status !== 200) {
         return;
