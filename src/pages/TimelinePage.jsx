@@ -71,12 +71,7 @@ export const TimelinePage = () => {
               defaultValue={destination.time}
               fullWidth
             />
-
-            <Button
-              onClick={() => setEditingIndex(null)}
-            >
-              저장
-            </Button>
+            
           </Stack>
         ) : (
           <Stack spacing={1}>
