@@ -22,7 +22,7 @@ export const HistoryPage = () => {
     {
       id: 1,
       userId: 1,
-      area: "전국",
+      area: "all",
       startDate: "2026-06-06",
       endDate: "2026-06-07",
       destinations: [
@@ -41,7 +41,7 @@ export const HistoryPage = () => {
     {
       id: 1,
       userId: 1,
-      area: "서울",
+      area: "seoul",
       startDate: "2026-06-06",
       endDate: "2026-06-07",
       destinations: [
@@ -60,7 +60,7 @@ export const HistoryPage = () => {
     {
       id: 1,
       userId: 1,
-      area: "경기",
+      area: "gyeonggi",
       startDate: "2026-06-06",
       endDate: "2026-06-07",
       destinations: [
@@ -79,7 +79,7 @@ export const HistoryPage = () => {
     {
       id: 1,
       userId: 1,
-      area: "강원",
+      area: "gangwon",
       startDate: "2026-06-06",
       endDate: "2026-06-07",
       destinations: [
@@ -98,7 +98,7 @@ export const HistoryPage = () => {
     {
       id: 1,
       userId: 1,
-      area: "충청",
+      area: "daejeon",
       startDate: "2026-06-06",
       endDate: "2026-06-07",
       destinations: [
@@ -145,7 +145,9 @@ export const HistoryPage = () => {
     }
   }, [ accessToken, navigate ]);
 
+  // TODO
   function isLoggedIn() {
+    return true;
     return accessToken !== null;
   }
 
@@ -186,6 +188,17 @@ export const HistoryPage = () => {
       console.error(error);
     }
   }
+
+  // TODO
+  useEffect(function setIsLoadingFalseAfterOneSecond() {
+    async function setIsLoadingAfterTimeout(timeout) {
+      await new Promise(resolve => setTimeout(resolve, timeout));
+
+      setIsLoading(false);
+    }
+
+    setIsLoadingAfterTimeout(1000)
+  }, [])
 
   function getSkeletons() {
     return [ ...Array(3) ].map((_, index) => (
