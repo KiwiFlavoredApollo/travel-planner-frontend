@@ -51,9 +51,9 @@ export const TimelinePage = () => {
         }
       />
 
-      <CardContent>
+      <CardContent sx={{ paddingTop: 0 }}>
         {editingIndex === index ? (
-          <>
+          <Stack spacing={2}>
             <TextField
               defaultValue={destination.place}
               fullWidth
@@ -62,24 +62,21 @@ export const TimelinePage = () => {
             <TextField
               defaultValue={destination.date}
               fullWidth
-              sx={{ mt: 1 }}
             />
 
             <TextField
               defaultValue={destination.time}
               fullWidth
-              sx={{ mt: 1 }}
             />
 
             <Button
-              sx={{ mt: 1 }}
               onClick={() => setEditingIndex(null)}
             >
               저장
             </Button>
-          </>
+          </Stack>
         ) : (
-          <>
+          <Stack spacing={1}>
             <Typography>
               {destination.date}
             </Typography>
@@ -87,7 +84,7 @@ export const TimelinePage = () => {
             <Typography>
               {destination.time}
             </Typography>
-          </>
+          </Stack>
         )}
       </CardContent>
     </Card>
