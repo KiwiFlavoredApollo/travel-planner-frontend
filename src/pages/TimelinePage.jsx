@@ -17,6 +17,8 @@ import { useAccessTokenContext } from "../contexts/AccessTokenContext.jsx";
 import { KoreanDatePicker } from "../components/KoreanDatePicker.jsx";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import { api } from "../api/axios.js";
+import { HttpStatusCode } from "axios";
 
 export const TimelinePage = () => {
 
@@ -26,19 +28,104 @@ export const TimelinePage = () => {
 
   const { accessToken } = useAccessTokenContext();
 
-  const travelPlan = location.state?.travelPlan || [];
-
+  const [ travelPlan, setTravelPlan ] = useState(location.state?.travelPlan || { destinations: [] });
   const [ editingIndex, setEditingIndex ] = useState(null);
+  const [ editedPlace, setEditedPlace ] = useState("");
+  const [ editedDate, setEditedDate ] = useState("");
+  const [ editedTime, setEditedTime ] = useState("");
 
-  // TODO
   function isLoggedIn() {
-    return true;
     return accessToken !== null;
   }
 
   if (!isLoggedIn()) {
     return (
         <Navigate to="/login"></Navigate>
+    );
+  }
+
+  function updateDestinationAt(destination, index) {
+    const destinations = [
+      ...travelPlan.destinations
+    ];
+
+    destinations[index] = destination;
+
+    setTravelPlan({
+      ...travelPlan,
+      destinations: destinations
+    });
+  }
+
+  async function updateDestination(index) {
+    try {
+      const destination = travelPlan.destinations[index];
+
+      const data = {
+        id: destination.id,
+        place: editedPlace,
+        date: editedDate,
+        time: editedTime,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      };
+
+      const response = await api.put(`/travel-plan/${travelPlan.id}`, data, config);
+
+      if (response.status !== HttpStatusCode.Ok) {
+        return;
+      }
+
+      updateDestinationAt(data, index);
+      setEditingIndex(null);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function getEditModeCard(destination, index) {
+    return (
+        <Card key={index}>
+          <CardHeader
+              title={
+                <Typography variant="h6">수정</Typography>
+              }
+              action={
+                <IconButton
+                    onClick={() => updateDestination(index)}
+                >
+                  <SaveIcon/>
+                </IconButton>
+              }
+          />
+
+          <CardContent sx={{ paddingTop: 0 }}>
+            <Stack spacing={2}>
+              <TextField
+                  label="여행지"
+                  value={editedPlace}
+                  onChange={(e) => setEditedPlace(e.target.value)}
+              />
+
+              <KoreanDatePicker
+                  label={"날짜"}
+                  value={editedDate}
+                  onChange={(value) => setEditedDate(value)}
+              />
+
+              <TextField
+                  label="시간"
+                  value={editedTime}
+                  onChange={(e) => setEditedTime(e.target.value)}
+              />
+            </Stack>
+          </CardContent>
+        </Card>
     );
   }
 
@@ -53,7 +140,12 @@ export const TimelinePage = () => {
               }
               action={
                 <IconButton
-                    onClick={() => setEditingIndex(index)}
+                    onClick={() => {
+                      setEditingIndex(index);
+                      setEditedPlace(destination.place);
+                      setEditedDate(destination.date);
+                      setEditedTime(destination.time);
+                    }}
                 >
                   <EditIcon/>
                 </IconButton>
@@ -81,52 +173,12 @@ export const TimelinePage = () => {
     );
   }
 
-  function getEditModeCard(destination, index) {
-    return (
-        <Card key={index}>
-          <CardHeader
-              title={
-                <Typography variant="h6">수정</Typography>
-              }
-              action={
-                <IconButton
-                    onClick={() => setEditingIndex(null)}
-                >
-                  <SaveIcon/>
-                </IconButton>
-              }
-          />
-
-          <CardContent sx={{ paddingTop: 0 }}>
-            <Stack spacing={2}>
-              <TextField
-                  label="여행지"
-                  defaultValue={destination.place}
-              />
-
-              <KoreanDatePicker
-                  label={"날짜"}
-                  value={destination.date}
-              />
-
-              // TODO
-              // TimePicker 컴포넌트 사용하기
-              <TextField
-                  label="시간"
-                  defaultValue={destination.time}
-              />
-            </Stack>
-          </CardContent>
-        </Card>
-    );
-  }
-
   return (
       <Container maxWidth="sm" sx={{ paddingX: 0, height: '100vh' }}>
         <TopAppBar/>
         <Stack spacing={2} sx={{ marginY: 2, paddingX: 1 }}>
           {
-            travelPlan.destinations?.map((destination, index) => (
+            travelPlan.destinations.map((destination, index) => (
                 index === editingIndex ?
                     getEditModeCard(destination, index) :
                     getViewModeCard(destination, index)

@@ -18,103 +18,7 @@ export const HistoryPage = () => {
 
   const navigate = useNavigate();
 
-  const [ travelPlans, setTravelPlans ] = useState([
-    {
-      id: 1,
-      userId: 1,
-      area: "all",
-      startDate: "2026-06-06",
-      endDate: "2026-06-07",
-      destinations: [
-        {
-          place: "경복궁",
-          date: "2026-06-06",
-          time: "00:00",
-        },
-        {
-          place: "남대문",
-          date: "2026-06-06",
-          time: "00:00",
-        }
-      ]
-    },
-    {
-      id: 1,
-      userId: 1,
-      area: "seoul",
-      startDate: "2026-06-06",
-      endDate: "2026-06-07",
-      destinations: [
-        {
-          place: "롯데타워",
-          date: "2026-06-06",
-          time: "00:00",
-        },
-        {
-          place: "남대문",
-          date: "2026-06-06",
-          time: "00:00",
-        }
-      ]
-    },
-    {
-      id: 1,
-      userId: 1,
-      area: "gyeonggi",
-      startDate: "2026-06-06",
-      endDate: "2026-06-07",
-      destinations: [
-        {
-          place: "네이버",
-          date: "2026-06-06",
-          time: "00:00",
-        },
-        {
-          place: "남대문",
-          date: "2026-06-06",
-          time: "00:00",
-        }
-      ]
-    },
-    {
-      id: 1,
-      userId: 1,
-      area: "gangwon",
-      startDate: "2026-06-06",
-      endDate: "2026-06-07",
-      destinations: [
-        {
-          place: "동해",
-          date: "2026-06-06",
-          time: "00:00",
-        },
-        {
-          place: "남대문",
-          date: "2026-06-06",
-          time: "00:00",
-        }
-      ]
-    },
-    {
-      id: 1,
-      userId: 1,
-      area: "daejeon",
-      startDate: "2026-06-06",
-      endDate: "2026-06-07",
-      destinations: [
-        {
-          place: "성심당",
-          date: "2026-06-06",
-          time: "00:00",
-        },
-        {
-          place: "남대문",
-          date: "2026-06-06",
-          time: "00:00",
-        }
-      ]
-    },
-  ]);
+  const [ travelPlans, setTravelPlans ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
 
   useEffect(() => {
@@ -145,9 +49,7 @@ export const HistoryPage = () => {
     }
   }, [ accessToken, navigate ]);
 
-  // TODO
   function isLoggedIn() {
-    return true;
     return accessToken !== null;
   }
 
@@ -188,17 +90,6 @@ export const HistoryPage = () => {
       console.error(error);
     }
   }
-
-  // TODO
-  useEffect(function setIsLoadingFalseAfterOneSecond() {
-    async function setIsLoadingAfterTimeout(timeout) {
-      await new Promise(resolve => setTimeout(resolve, timeout));
-
-      setIsLoading(false);
-    }
-
-    setIsLoadingAfterTimeout(1000)
-  }, [])
 
   function getSkeletons() {
     return [ ...Array(3) ].map((_, index) => (
