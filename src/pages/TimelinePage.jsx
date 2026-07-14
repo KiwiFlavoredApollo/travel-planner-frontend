@@ -27,11 +27,13 @@ export const TimelinePage = () => {
 
   const { accessToken } = useAccessTokenContext();
 
-  const [travelPlan, setTravelPlan] = useState(
-      location.state?.travelPlan
-  );
+  const travelPlan = location.state?.travelPlan || [];
 
   const [ editingIndex, setEditingIndex ] = useState(null);
+
+  const [destinations, setDestinations] = useState(
+  travelPlan.destinations || []
+  );
 
   const [editedPlace, setEditedPlace] = useState("");
   const [editedDate, setEditedDate] = useState("");
@@ -186,7 +188,7 @@ export const TimelinePage = () => {
         <TopAppBar/>
         <Stack spacing={2} sx={{ marginY: 2, paddingX: 1 }}>
           {
-            travelPlan.destinations?.map((destination, index) => (
+            destinations?.map((destination, index) => (
                 index === editingIndex ?
                     getEditModeCard(destination, index) :
                     getViewModeCard(destination, index)
