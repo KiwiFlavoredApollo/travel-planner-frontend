@@ -57,6 +57,15 @@ export const TimelinePage = () => {
     });
   }
 
+  /**
+   * 현재 설계된 API에 큰 결함이 있습니다.
+   * 1. Request Body와 Path Variable로 여행지의 아이디를 전달하기 때문에 중복입니다.
+   * 2. 백엔드 측에서 여행계획을 생성할 때와 여행계획을 수정할 때 DestionRequest를 재활용하기 때문에
+   * 여행계획을 수정할 때와는 상관없는 keywards를 프론트엔드 측에서 전달해야하는 문제가 있습니다.
+   *
+   * @param index
+   * @returns {Promise<void>}
+   */
   async function updateDestination(index) {
     try {
       const destination = travelPlan.destinations[index];
@@ -66,6 +75,7 @@ export const TimelinePage = () => {
         place: editedPlace,
         date: editedDate,
         time: editedTime,
+        keywords: [ "" ],
       };
 
       const config = {
@@ -74,7 +84,7 @@ export const TimelinePage = () => {
         }
       };
 
-      const response = await api.put(`/travel-plan/${travelPlan.id}`, data, config);
+      const response = await api.put(`/travel-plan/${destination.id}`, data, config);
 
       if (response.status !== HttpStatusCode.Ok) {
         return;
