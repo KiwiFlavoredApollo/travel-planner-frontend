@@ -60,9 +60,15 @@ export const TimelinePage = () => {
               }
               action={
                 <IconButton
-                    onClick={() => setEditingIndex(index)}
+                    onClick={() => {
+                      setEditingIndex(index);
+
+                      setEditedPlace(destination.place);
+                      setEditedDate(destination.date);
+                      setEditedTime(destination.time);
+                    }}
                 >
-                  <EditIcon/>
+                    <EditIcon/>
                 </IconButton>
               }
           />
