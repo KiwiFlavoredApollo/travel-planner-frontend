@@ -17,6 +17,7 @@ import { useAccessTokenContext } from "../contexts/AccessTokenContext.jsx";
 import { KoreanDatePicker } from "../components/KoreanDatePicker.jsx";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import { api } from "../api/axios.js";
 
 export const TimelinePage = () => {
 
@@ -184,7 +185,7 @@ export const TimelinePage = () => {
         <TopAppBar/>
         <Stack spacing={2} sx={{ marginY: 2, paddingX: 1 }}>
           {
-            travelPlan.destinations?.map((destination, index) => (
+            destinations?.map((destination, index) => (
                 index === editingIndex ?
                     getEditModeCard(destination, index) :
                     getViewModeCard(destination, index)
