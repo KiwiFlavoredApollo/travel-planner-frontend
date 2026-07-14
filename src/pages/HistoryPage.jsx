@@ -29,12 +29,12 @@ export const HistoryPage = () => {
         {
           place: "경복궁",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         },
         {
           place: "남대문",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         }
       ]
     },
@@ -48,12 +48,12 @@ export const HistoryPage = () => {
         {
           place: "롯데타워",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         },
         {
           place: "남대문",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         }
       ]
     },
@@ -67,12 +67,12 @@ export const HistoryPage = () => {
         {
           place: "네이버",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         },
         {
           place: "남대문",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         }
       ]
     },
@@ -86,12 +86,12 @@ export const HistoryPage = () => {
         {
           place: "동해",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         },
         {
           place: "남대문",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         }
       ]
     },
@@ -105,12 +105,12 @@ export const HistoryPage = () => {
         {
           place: "성심당",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         },
         {
           place: "남대문",
           date: "2026-06-06",
-          time: "00:00:00",
+          time: "00:00",
         }
       ]
     },
