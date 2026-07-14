@@ -66,6 +66,7 @@ export const TimelinePage = () => {
         place: editedPlace,
         date: editedDate,
         time: editedTime,
+        keywords: ["dummy"],
       };
 
       const config = {
@@ -74,7 +75,7 @@ export const TimelinePage = () => {
         }
       };
 
-      const response = await api.put(`/travel-plan/${travelPlan.id}`, data, config);
+      const response = await api.put(`/travel-plan/${destination.id}`, data, config);
 
       if (response.status !== HttpStatusCode.Ok) {
         return;
