@@ -152,20 +152,68 @@ export const TimelinePage = () => {
             <Stack spacing={2}>
               <TextField
                   label="여행지"
-                  value={editedPlace}
-                  onChange={(e) => setEditedPlace(e.target.value)}
+                  value={destination.place}
+                  onChange={(e) => {
+
+                      const updatedDestinations = [
+                          ...travelPlan.destinations
+                      ];
+
+                      updatedDestinations[index] = {
+                          ...updatedDestinations[index],
+                          place: e.target.value
+                      };
+
+                      setTravelPlan({
+                          ...travelPlan,
+                          destinations: updatedDestinations
+                      });
+
+                  }}
               />
 
               <KoreanDatePicker
                   label={"날짜"}
-                  value={editedDate}
-                  onChange={(value) => setEditedDate(value)}
+                  value={destination.date}
+                  onChange={(value) => {
+
+                      const updatedDestinations = [
+                          ...travelPlan.destinations
+                      ];
+
+                      updatedDestinations[index] = {
+                          ...updatedDestinations[index],
+                          date: value
+                      };
+
+                      setTravelPlan({
+                          ...travelPlan,
+                          destinations: updatedDestinations
+                      });
+
+                  }}
               />
 
               <TextField
                   label="시간"
-                  value={editedTime}
-                  onChange={(e) => setEditedTime(e.target.value)}
+                  value={destination.time}
+                  onChange={(e)=>{
+
+                      const updatedDestinations = [
+                          ...travelPlan.destinations
+                      ];
+
+                      updatedDestinations[index] = {
+                          ...updatedDestinations[index],
+                          time: e.target.value
+                      };
+
+                      setTravelPlan({
+                          ...travelPlan,
+                          destinations: updatedDestinations
+                      });
+
+                  }}
               />
             </Stack>
           </CardContent>
