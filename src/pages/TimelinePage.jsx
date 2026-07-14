@@ -109,7 +109,7 @@ export const TimelinePage = () => {
         config
       );
 
-      setDestinations(response.data.destinations);
+      setTravelPlan(response.data);
 
       setEditingIndex(null);
 
@@ -127,7 +127,7 @@ export const TimelinePage = () => {
               }
               action={
                 <IconButton
-                    onClick={saveDestination}
+                    onClick={() => saveDestination(index)}
                 >
                     <SaveIcon/>
                 </IconButton>
