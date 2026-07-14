@@ -88,13 +88,18 @@ export const TimelinePage = () => {
   async function saveDestination(index) {
     try {
 
-      const destination = travelPlan.destinations[index];
-
       const requestBody = {
+        area: travelPlan.area,
+        startDate: travelPlan.startDate,
+        endDate: travelPlan.endDate,
+        destinations: updatedDestinations.map(destination => ({
           id: destination.id,
-          place: destination.place,
+          keywords: [
+            destination.place
+          ],
           date: destination.date,
           time: destination.time,
+        }))
       };
 
       const config = {
@@ -104,7 +109,7 @@ export const TimelinePage = () => {
       };
 
       const response = await api.put(
-        `/travel-plan/${destination.id}`,
+        `/travel-plan/${travelPlan.id}`,
         requestBody,
         config
       );
