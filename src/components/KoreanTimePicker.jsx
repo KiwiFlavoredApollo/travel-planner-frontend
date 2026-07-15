@@ -13,7 +13,7 @@ export const KoreanTimePicker = ({value, label, onChange}) => {
     setTime(newTime);
 
     if (onChange) {
-      onChange(newTime ? newTime : null);
+      onChange(newTime ? newTime.format("HH:mm") : null);
     }
   };
 

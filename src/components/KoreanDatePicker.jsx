@@ -12,7 +12,7 @@ export const KoreanDatePicker = ({value, label, disablePast, onChange}) => {
     setDate(newDate);
 
     if (onChange) {
-      onChange(newDate ? newDate : null);
+      onChange(newDate ? newDate.format("YYYY-MM-DD") : null);
     }
   };
 

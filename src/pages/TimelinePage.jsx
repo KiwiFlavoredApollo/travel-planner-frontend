@@ -82,6 +82,7 @@ export const TimelinePage = () => {
         place: editedPlace,
         date: editedDate,
         time: editedTime,
+        weather: destination.weather,
         keywords: [ "" ],
       };
 
