@@ -23,22 +23,22 @@ export const MainPage = () => {
   const navigate = useNavigate();
 
   async function handleTravelPlanGenerateButtonClick() {
-    setIsLoading(true);
-
-    const data = {
-      area: area,
-      startDate: startDate.format("YYYY-MM-DD"),
-      endDate: endDate.format("YYYY-MM-DD"),
-      destinations: destinations,
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
-
     try {
+      setIsLoading(true);
+
+      const data = {
+        area: area,
+        startDate: startDate,
+        endDate: endDate,
+        destinations: destinations,
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+
       const response = await api.post("/travel-plan", data, config);
 
       if (response.status !== HttpStatusCode.Created) {
@@ -57,6 +57,7 @@ export const MainPage = () => {
 
     } catch (err) {
       console.error(err);
+      setIsLoading(false);
     }
   }
 
