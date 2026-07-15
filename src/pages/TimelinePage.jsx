@@ -108,7 +108,7 @@ export const TimelinePage = () => {
         }
       };
 
-      const response = await api.put(`/travel-plan/${destination.id}`, data, config);
+      const response = await api.put(`/destinations/${destination.id}`, data, config);
 
       if (response.status !== HttpStatusCode.Ok) {
         return;
