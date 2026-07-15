@@ -97,8 +97,8 @@ export const TimelinePage = () => {
       const data = {
         id: destination.id,
         place: editedPlace,
-        date: editedDate.format("YYYY-MM-DD"),
-        time: editedTime.format("HH:mm"),
+        date: editedDate,
+        time: editedTime,
         keywords: [ "" ],
       };
 
