@@ -21,6 +21,7 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import { api } from "../api/axios.js";
 import { KoreanTimePicker } from "../components/KoreanTimePicker.jsx";
 import { HttpStatusCode } from "axios";
+import { Weathers } from "../constants/weathers.js";
 
 export const TimelinePage = () => {
 
@@ -35,28 +36,6 @@ export const TimelinePage = () => {
   const [ editedPlace, setEditedPlace ] = useState("");
   const [ editedDate, setEditedDate ] = useState("");
   const [ editedTime, setEditedTime ] = useState("");
-
-  function getWeatherEmoji(weather) {
-    switch (weather) {
-      case "맑음":
-        return "☀️";
-
-      case "흐림":
-        return "☁️";
-
-      case "비":
-        return "🌧️";
-
-      case "눈":
-        return "❄️";
-
-      case "안개":
-        return "🌫️";
-
-      default:
-        return "🌤️";
-    }
-  }
 
   function isLoggedIn() {
     return accessToken !== null;
@@ -206,7 +185,7 @@ export const TimelinePage = () => {
                 <WbSunnyIcon sx={{ marginRight: 1 }}/>
 
                 <Typography variant="body2">
-                  {getWeatherEmoji(destination.weather)}
+                  {Weathers.getEmoji(destination.weather)}
                   {" "}
                   {destination.weather || "정보 없음"}
                 </Typography>
