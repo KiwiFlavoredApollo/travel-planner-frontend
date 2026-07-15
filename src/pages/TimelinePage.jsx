@@ -36,6 +36,28 @@ export const TimelinePage = () => {
   const [ editedDate, setEditedDate ] = useState("");
   const [ editedTime, setEditedTime ] = useState("");
 
+  function getWeatherEmoji(weather) {
+    switch (weather) {
+      case "맑음":
+        return "☀️";
+
+      case "흐림":
+        return "☁️";
+
+      case "비":
+        return "🌧️";
+
+      case "눈":
+        return "❄️";
+
+      case "안개":
+        return "🌫️";
+
+      default:
+        return "🌤️";
+    }
+  }
+
   function isLoggedIn() {
     return accessToken !== null;
   }
@@ -184,6 +206,8 @@ export const TimelinePage = () => {
                 <WbSunnyIcon sx={{ marginRight: 1 }}/>
 
                 <Typography variant="body2">
+                  {getWeatherEmoji(destination.weather)}
+                  {" "}
                   {destination.weather || "정보 없음"}
                 </Typography>
               </Stack>
