@@ -97,7 +97,7 @@ export const MainPage = () => {
 
     function isDateRangeValid(startDate, endDate) {
       try {
-        return endDate.diff(startDate) >= 0;
+        return dayjs(endDate).diff(dayjs(startDate)) >= 0;
 
       } catch (error) {
         return false;
