@@ -17,6 +17,7 @@ import { useAccessTokenContext } from "../contexts/AccessTokenContext.jsx";
 import { KoreanDatePicker } from "../components/KoreanDatePicker.jsx";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import { api } from "../api/axios.js";
 import { KoreanTimePicker } from "../components/KoreanTimePicker.jsx";
 import { HttpStatusCode } from "axios";
@@ -176,6 +177,14 @@ export const TimelinePage = () => {
                 <ScheduleIcon sx={{ marginRight: 1 }}/>
                 <Typography variant="body2">
                   {destination.time}
+                </Typography>
+              </Stack>
+
+              <Stack direction={"row"} sx={{ alignItems: 'center' }}>
+                <WbSunnyIcon sx={{ marginRight: 1 }}/>
+
+                <Typography variant="body2">
+                  {destination.weather || "정보 없음"}
                 </Typography>
               </Stack>
             </Stack>
