@@ -21,6 +21,11 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import { api } from "../api/axios.js";
 import { KoreanTimePicker } from "../components/KoreanTimePicker.jsx";
 import { HttpStatusCode } from "axios";
+import CloudIcon from '@mui/icons-material/Cloud';
+import UmbrellaIcon from '@mui/icons-material/Umbrella';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import FoggyIcon from '@mui/icons-material/Foggy';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 export const TimelinePage = () => {
 
@@ -35,28 +40,6 @@ export const TimelinePage = () => {
   const [ editedPlace, setEditedPlace ] = useState("");
   const [ editedDate, setEditedDate ] = useState("");
   const [ editedTime, setEditedTime ] = useState("");
-
-  function getWeatherEmoji(weather) {
-    switch (weather) {
-      case "맑음":
-        return "☀️";
-
-      case "흐림":
-        return "☁️";
-
-      case "비":
-        return "🌧️";
-
-      case "눈":
-        return "❄️";
-
-      case "안개":
-        return "🌫️";
-
-      default:
-        return "🌤️";
-    }
-  }
 
   function isLoggedIn() {
     return accessToken !== null;
@@ -163,6 +146,28 @@ export const TimelinePage = () => {
     );
   }
 
+  function getWeatherIcon(weather) {
+    switch (weather) {
+      case "맑음":
+        return <WbSunnyIcon sx={{ marginRight: 1 }}/>
+
+      case "흐림":
+        return <CloudIcon sx={{ marginRight: 1 }}/>
+
+      case "비":
+        return <UmbrellaIcon sx={{ marginRight: 1 }}/>
+
+      case "눈":
+        return <AcUnitIcon sx={{ marginRight: 1 }}/>
+
+      case "안개":
+        return <FoggyIcon sx={{ marginRight: 1 }}/>
+
+      default:
+        return <QuestionMarkIcon sx={{ marginRight: 1 }}/>
+    }
+  }
+
   function getViewModeCard(destination, index) {
     return (
         <Card key={index}>
@@ -203,11 +208,10 @@ export const TimelinePage = () => {
               </Stack>
 
               <Stack direction={"row"} sx={{ alignItems: 'center' }}>
-                <WbSunnyIcon sx={{ marginRight: 1 }}/>
-
+                {
+                  getWeatherIcon(destination.weather)
+                }
                 <Typography variant="body2">
-                  {getWeatherEmoji(destination.weather)}
-                  {" "}
                   {destination.weather || "정보 없음"}
                 </Typography>
               </Stack>
